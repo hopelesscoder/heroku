@@ -51,8 +51,8 @@ public class Main {
   @Autowired
   private DataSource dataSource;
   
-  //private static final String template = "Hello, %s!";
-  //private final AtomicLong counter = new AtomicLong();
+  private static final String template = "Hello, %s!";
+  private final AtomicLong counter = new AtomicLong();
 
   public static void main(String[] args) throws Exception {
     SpringApplication.run(Main.class, args);
@@ -65,11 +65,10 @@ public class Main {
     return "index";
   }
 
-/*   @GetMapping("/hello-world")
-    @ResponseBody
-    public Greeting sayHello(@RequestParam(name="name", required=false, defaultValue="Stranger") String name) {
-        return new Greeting(counter.incrementAndGet(), String.format(template, name));
-  } */
+  @GetMapping("/hello-world")
+  public Greeting sayHello(@RequestParam(name="name", required=false, defaultValue="Stranger") String name) {
+	return new Greeting(counter.incrementAndGet(), String.format(template, name));
+  }
   
   @RequestMapping("/db")
   String db(Map<String, Object> model) {
