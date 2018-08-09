@@ -79,7 +79,7 @@ public class Main {
   
     @GetMapping("/getpdf")
     @ResponseBody
-	public ResponseEntity<byte[]> getPDF(/* @RequestBody String json */) throws net.sf.jasperreports.engine.JRException{
+	public ResponseEntity<byte[]> getPDF(/* @RequestBody String json */) throws net.sf.jasperreports.engine.JRException, java.io.IOException{
 
 
 		// retrieve contents of "C:/tmp/report.pdf" that were written in showHelp
@@ -97,7 +97,7 @@ public class Main {
 	
 	@PostMapping("/getpdf")
     @ResponseBody
-	public ResponseEntity<byte[]> getPDF( @RequestBody String json ) throws net.sf.jasperreports.engine.JRException {
+	public ResponseEntity<byte[]> getPDF( @RequestBody String json ) throws net.sf.jasperreports.engine.JRException, java.io.IOException{
 		
 
 		// retrieve contents of "C:/tmp/report.pdf" that were written in showHelp
