@@ -93,6 +93,23 @@ public class Main {
 		ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(contents, headers, HttpStatus.OK);
 		return response;
 	}
+	
+	@PostMapping("/getpdf")
+    @ResponseBody
+	public ResponseEntity<byte[]> getPDF( @RequestBody String json ) {
+
+
+		// retrieve contents of "C:/tmp/report.pdf" that were written in showHelp
+		byte[] contents = "Any String you want".getBytes();
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.parseMediaType("application/pdf"));
+		String filename = "output.pdf";
+		headers.setContentDispositionFormData(filename, filename);
+		headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+		ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(contents, headers, HttpStatus.OK);
+		return response;
+	}
   
   @RequestMapping("/db")
   String db(Map<String, Object> model) {
