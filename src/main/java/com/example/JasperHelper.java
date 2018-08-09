@@ -18,7 +18,7 @@ public class JasperHelper {
  
         // Compile jrxml file.
        JasperReport jasperReport = JasperCompileManager
-               .compileReport("C:/jasperreport/StyledTextReport/StyledTextReport.jrxml");
+               .compileReport("Blank_A4.jrxml");
  
        // Parameters for report
        Map<String, Object> parameters = new HashMap<String, Object>();

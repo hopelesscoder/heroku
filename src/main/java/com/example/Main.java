@@ -97,11 +97,13 @@ public class Main {
 	@PostMapping("/getpdf")
     @ResponseBody
 	public ResponseEntity<byte[]> getPDF( @RequestBody String json ) {
-
+		
 
 		// retrieve contents of "C:/tmp/report.pdf" that were written in showHelp
-		byte[] contents = "Any String you want".getBytes();
-
+		//byte[] contents = "Any String you want".getBytes();
+		byte[] contents = JasperHelper.printPdf();
+		
+		
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.parseMediaType("application/pdf"));
 		String filename = "output.pdf";
