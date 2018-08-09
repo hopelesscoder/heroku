@@ -27,8 +27,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.http.ResponseEntity;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -70,6 +72,27 @@ public class Main {
   public Greeting sayHello(@RequestParam(name="name", required=false, defaultValue="Stranger") String name) {
 	return new Greeting(counter.incrementAndGet(), String.format(template, name));
   }
+  
+    @GetMapping("/getpdf")
+    @ResponseBody
+	public ResponseEntity<byte[]> getPDF(@RequestBody String json) {
+		// convert JSON to Employee 
+		Employee emp = convertSomehow(json);
+
+		// generate the file
+		PdfUtil.showHelp(emp);
+
+		// retrieve contents of "C:/tmp/report.pdf" that were written in showHelp
+		byte[] contents = "Any String you want".getBytes();
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.parseMediaType("application/pdf"));
+		String filename = "output.pdf";
+		headers.setContentDispositionFormData(filename, filename);
+		headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+		ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(contents, headers, HttpStatus.OK);
+		return response;
+	}
   
   @RequestMapping("/db")
   String db(Map<String, Object> model) {
