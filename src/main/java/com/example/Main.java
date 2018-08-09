@@ -79,11 +79,12 @@ public class Main {
   
     @GetMapping("/getpdf")
     @ResponseBody
-	public ResponseEntity<byte[]> getPDF(/* @RequestBody String json */) {
+	public ResponseEntity<byte[]> getPDF(/* @RequestBody String json */) throws net.sf.jasperreports.engine.JRException{
 
 
 		// retrieve contents of "C:/tmp/report.pdf" that were written in showHelp
-		byte[] contents = "Any String you want".getBytes();
+		//byte[] contents = "Any String you want".getBytes();
+		byte[] contents = JasperHelper.printPdf();
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.parseMediaType("application/pdf"));
@@ -96,7 +97,7 @@ public class Main {
 	
 	@PostMapping("/getpdf")
     @ResponseBody
-	public ResponseEntity<byte[]> getPDF( @RequestBody String json ) {
+	public ResponseEntity<byte[]> getPDF( @RequestBody String json ) throws net.sf.jasperreports.engine.JRException {
 		
 
 		// retrieve contents of "C:/tmp/report.pdf" that were written in showHelp
