@@ -25,6 +25,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,7 +42,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 
-@Controller
+@RestController
 @SpringBootApplication
 public class Main {
 
@@ -51,8 +52,8 @@ public class Main {
   @Autowired
   private DataSource dataSource;
   
-  private static final String template = "Hello, %s!";
-  private final AtomicLong counter = new AtomicLong();
+  //private static final String template = "Hello, %s!";
+  //private final AtomicLong counter = new AtomicLong();
 
   public static void main(String[] args) throws Exception {
     SpringApplication.run(Main.class, args);
@@ -60,18 +61,18 @@ public class Main {
 
   }
 
-  @RequestMapping("/")
+/*   @RequestMapping("/")
   String index() {
     return "index";
   }
-
+ */
   @GetMapping("/hello-world")
     @ResponseBody
     public Greeting sayHello(@RequestParam(name="name", required=false, defaultValue="Stranger") String name) {
         return new Greeting(counter.incrementAndGet(), String.format(template, name));
   }
   
-  @RequestMapping("/db")
+  /* @RequestMapping("/db")
   String db(Map<String, Object> model) {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
@@ -101,6 +102,6 @@ public class Main {
       config.setJdbcUrl(dbUrl);
       return new HikariDataSource(config);
     }
-  }
+  } */
 
 }
