@@ -1,3 +1,6 @@
+package com.example;
+
+
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -14,7 +17,7 @@ import net.sf.jasperreports.engine.JasperReport;
  
 public class JasperHelper {
  
-   public byte[] printPdf() throws JRException, IOException {
+   public static byte[] printPdf() throws JRException, IOException {
  
         // Compile jrxml file.
        JasperReport jasperReport = JasperCompileManager
