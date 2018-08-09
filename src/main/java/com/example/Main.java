@@ -26,6 +26,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -34,6 +37,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Map;
+
+import java.util.concurrent.atomic.AtomicLong;
+
 
 @Controller
 @SpringBootApplication
@@ -44,10 +50,13 @@ public class Main {
 
   @Autowired
   private DataSource dataSource;
+  
+  private static final String template = "Hello, %s!";
+  private final AtomicLong counter = new AtomicLong();
 
   public static void main(String[] args) throws Exception {
-    //SpringApplication.run(Main.class, args);
-    SpringApplication.run(HelloWorldController.class, args);
+    SpringApplication.run(Main.class, args);
+    //SpringApplication.run(HelloWorldController.class, args);
 
   }
 
@@ -56,6 +65,12 @@ public class Main {
     return "index";
   }
 
+  @GetMapping("/hello-world")
+    @ResponseBody
+    public Greeting sayHello(@RequestParam(name="name", required=false, defaultValue="Stranger") String name) {
+        return new Greeting(counter.incrementAndGet(), String.format(template, name));
+  }
+  
   @RequestMapping("/db")
   String db(Map<String, Object> model) {
     try (Connection connection = dataSource.getConnection()) {
