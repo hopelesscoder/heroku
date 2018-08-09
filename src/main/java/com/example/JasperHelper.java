@@ -26,9 +26,13 @@ public class JasperHelper {
        // Parameters for report
        Map<String, Object> parameters = new HashMap<String, Object>();
 
+	    // DataSource
+       // This is simple example, no database.
+       // then using empty datasource.
+       JRDataSource dataSource = new JREmptyDataSource();
  
        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport,
-               parameters);
+               parameters, dataSource);
  
 		System.out.println("Done!");
  
