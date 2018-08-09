@@ -14,7 +14,7 @@ import net.sf.jasperreports.engine.JasperReport;
  
 public class JasperHelper {
  
-   public static void main(String[] args) throws JRException, IOException {
+   public byte[] printPdf() throws JRException, IOException {
  
         // Compile jrxml file.
        JasperReport jasperReport = JasperCompileManager
@@ -27,11 +27,11 @@ public class JasperHelper {
        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport,
                parameters);
  
-    
+		System.out.println("Done!");
  
        // Export to PDF.
-       JasperExportManager.exportReportToPdf(jasperPrint);
+       return JasperExportManager.exportReportToPdf(jasperPrint);
         
-       System.out.println("Done!");
+       
    }
 }
