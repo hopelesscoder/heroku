@@ -77,11 +77,7 @@ public class Main {
     @GetMapping("/getpdf")
     @ResponseBody
 	public ResponseEntity<byte[]> getPDF(@RequestBody String json) {
-		// convert JSON to Employee 
-		Employee emp = convertSomehow(json);
 
-		// generate the file
-		PdfUtil.showHelp(emp);
 
 		// retrieve contents of "C:/tmp/report.pdf" that were written in showHelp
 		byte[] contents = "Any String you want".getBytes();
