@@ -13,8 +13,8 @@ This application supports the [Getting Started with Java on Heroku](https://devc
 Make sure you have Java and Maven installed.  Also, install the [Heroku CLI](https://cli.heroku.com/).
 
 ```sh
-$ git clone https://github.com/heroku/java-getting-started.git
-$ cd java-getting-started
+$ git clone https://github.com/hopelesscoder/heroku.git
+$ cd heroku
 $ mvn install
 $ heroku local:start
 ```
@@ -30,9 +30,14 @@ DATABASE_URL=postgres://localhost:5432/java_database_name
 ## Deploying to Heroku
 
 ```sh
-$ heroku create
-$ git push heroku master
-$ heroku open
+//$ heroku create
+//$ git push heroku master
+//$ heroku open
+To deploy on heroku you need to push on master
+$ git add *
+$ git commit -m "your commit message"
+$ git push master
+
 ```
 
 ## Documentation
