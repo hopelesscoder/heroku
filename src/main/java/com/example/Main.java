@@ -39,6 +39,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import java.util.concurrent.atomic.AtomicLong;
@@ -51,40 +52,43 @@ import org.springframework.http.HttpStatus;
 @SpringBootApplication
 public class Main {
 
-  @Value("${spring.datasource.url}")
-  private String dbUrl;
+	@Value("${spring.datasource.url}")
+	private String dbUrl;
 
-  @Autowired
-  private DataSource dataSource;
-  
-  private static final String template = "Hello, %s!";
-  private final AtomicLong counter = new AtomicLong();
+	@Autowired
+	private DataSource dataSource;
 
-  public static void main(String[] args) throws Exception {
-    SpringApplication.run(Main.class, args);
-    //SpringApplication.run(HelloWorldController.class, args);
+	private static final String template = "Hello, %s!";
+	private final AtomicLong counter = new AtomicLong();
 
-  }
+	public static void main(String[] args) throws Exception {
+		SpringApplication.run(Main.class, args);
+		//SpringApplication.run(HelloWorldController.class, args);
 
-  @RequestMapping("/")
-  String index() {
-    return "index";
-  }
+	}
 
-  @GetMapping("/hello-world")
-  @ResponseBody
-  public Greeting sayHello(@RequestParam(name="name", required=false, defaultValue="Stranger") String name) {
-	return new Greeting(counter.incrementAndGet(), String.format(template, name));
-  }
-  
-    @GetMapping("/getpdf")
-    @ResponseBody
+	@RequestMapping("/")
+	String index() {
+		return "index";
+	}
+
+	@GetMapping("/hello-world")
+	@ResponseBody
+	public Greeting sayHello(@RequestParam(name="name", required=false, defaultValue="Stranger") String name) {
+		return new Greeting(counter.incrementAndGet(), String.format(template, name));
+	}
+
+	@GetMapping("/getpdf")
+	@ResponseBody
 	public ResponseEntity<byte[]> getPDF(/* @RequestBody String json */) throws net.sf.jasperreports.engine.JRException, java.io.IOException{
 
 
 		// retrieve contents of "C:/tmp/report.pdf" that were written in showHelp
 		//byte[] contents = "Any String you want".getBytes();
-		byte[] contents = JasperHelper.printPdf();
+		Map<String, Object> inputParam = new HashMap<String, Object>();
+		Greeting temp = new Greeting(22L, "contenuto del greeting");
+		inputParam.put("greeting", temp);
+		byte[] contents = JasperHelper.printPdf(inputParam);
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.parseMediaType("application/pdf"));
@@ -94,17 +98,17 @@ public class Main {
 		ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(contents, headers, HttpStatus.OK);
 		return response;
 	}
-	
+
 	@PostMapping("/getpdf")
-    @ResponseBody
+	@ResponseBody
 	public ResponseEntity<byte[]> getPDF( @RequestBody String json ) throws net.sf.jasperreports.engine.JRException, java.io.IOException{
-		
+
 
 		// retrieve contents of "C:/tmp/report.pdf" that were written in showHelp
 		//byte[] contents = "Any String you want".getBytes();
 		byte[] contents = JasperHelper.printPdf();
-		
-		
+
+
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.parseMediaType("application/pdf"));
 		String filename = "output.pdf";
@@ -113,37 +117,37 @@ public class Main {
 		ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(contents, headers, HttpStatus.OK);
 		return response;
 	}
-  
-  @RequestMapping("/db")
-  String db(Map<String, Object> model) {
-    try (Connection connection = dataSource.getConnection()) {
-      Statement stmt = connection.createStatement();
-      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS ticks (tick timestamp)");
-      stmt.executeUpdate("INSERT INTO ticks VALUES (now())");
-      ResultSet rs = stmt.executeQuery("SELECT tick FROM ticks");
 
-      ArrayList<String> output = new ArrayList<String>();
-      while (rs.next()) {
-        output.add("Read from DB: " + rs.getTimestamp("tick"));
-      }
+	@RequestMapping("/db")
+	String db(Map<String, Object> model) {
+		try (Connection connection = dataSource.getConnection()) {
+			Statement stmt = connection.createStatement();
+			stmt.executeUpdate("CREATE TABLE IF NOT EXISTS ticks (tick timestamp)");
+			stmt.executeUpdate("INSERT INTO ticks VALUES (now())");
+			ResultSet rs = stmt.executeQuery("SELECT tick FROM ticks");
 
-      model.put("records", output);
-      return "db";
-    } catch (Exception e) {
-      model.put("message", e.getMessage());
-      return "error";
-    }
-  }
+			ArrayList<String> output = new ArrayList<String>();
+			while (rs.next()) {
+				output.add("Read from DB: " + rs.getTimestamp("tick"));
+			}
 
-  @Bean
-  public DataSource dataSource() throws SQLException {
-    if (dbUrl == null || dbUrl.isEmpty()) {
-      return new HikariDataSource();
-    } else {
-      HikariConfig config = new HikariConfig();
-      config.setJdbcUrl(dbUrl);
-      return new HikariDataSource(config);
-    }
-  }
+			model.put("records", output);
+			return "db";
+		} catch (Exception e) {
+			model.put("message", e.getMessage());
+			return "error";
+		}
+	}
+
+	@Bean
+	public DataSource dataSource() throws SQLException {
+		if (dbUrl == null || dbUrl.isEmpty()) {
+			return new HikariDataSource();
+		} else {
+			HikariConfig config = new HikariConfig();
+			config.setJdbcUrl(dbUrl);
+			return new HikariDataSource(config);
+		}
+	}
 
 }
