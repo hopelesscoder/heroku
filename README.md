@@ -36,7 +36,7 @@ DATABASE_URL=postgres://localhost:5432/java_database_name
 To deploy on heroku you need to push on master
 $ git add *
 $ git commit -m "your commit message"
-$ git push master
+$ git push 
 
 ```
 
