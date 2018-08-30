@@ -19,6 +19,9 @@ package com.example;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+
+import net.sf.jasperreports.engine.JRException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -35,6 +38,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.http.ResponseEntity;
 
 import javax.sql.DataSource;
+
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -80,12 +85,30 @@ public class Main {
 	}
 
 
+//	@PostMapping("/adduser")
+//	@ResponseBody
+//    public User create(@RequestBody User user){
+//		System.out.println("create user called");
+//        return user;
+//		//return userService.create(user);
+//    }
+	
 	@PostMapping("/adduser")
 	@ResponseBody
-    public User create(@RequestBody User user){
+    public ResponseEntity<byte[]> create(@RequestBody User user) throws JRException, IOException{
 		System.out.println("create user called");
-        return user;
-		//return userService.create(user);
+		Map<String, Object> inputParam = new HashMap<String, Object>();
+		Greeting temp = new Greeting(22L, "contenuto del greeting");
+		inputParam.put("greeting", temp);
+		byte[] contents = JasperHelper.printPdf(inputParam);
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.parseMediaType("application/pdf"));
+		String filename = "output.pdf";
+		headers.setContentDispositionFormData(filename, filename);
+		headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+		ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(contents, headers, HttpStatus.OK);
+		return response;
     }
 	
 	@GetMapping("/getpdf")
