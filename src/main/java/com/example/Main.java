@@ -79,7 +79,9 @@ public class Main {
 		return new Greeting(counter.incrementAndGet(), String.format(template, name));
 	}
 
+
 	@PostMapping("/adduser")
+	@ResponseBody
     public User create(@RequestBody User user){
 		System.out.println("create user called");
         return user;
