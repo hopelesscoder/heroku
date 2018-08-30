@@ -78,6 +78,13 @@ public class Main {
 		return new Greeting(counter.incrementAndGet(), String.format(template, name));
 	}
 
+	@PostMapping("/adduser")
+    public User create(@RequestBody User user){
+		System.out.println("create user called");
+        return user;
+		//return userService.create(user);
+    }
+	
 	@GetMapping("/getpdf")
 	@ResponseBody
 	public ResponseEntity<byte[]> getPDF(/* @RequestBody String json */) throws net.sf.jasperreports.engine.JRException, java.io.IOException{
