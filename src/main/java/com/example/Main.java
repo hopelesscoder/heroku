@@ -96,7 +96,7 @@ public class Main {
 	@PostMapping("/printuser")
 	@ResponseBody
     public ResponseEntity<byte[]> print(@RequestBody User user) throws JRException, IOException{
-		System.out.println("create user called");
+		System.out.println("print user called");
 		Map<String, Object> inputParam = new HashMap<String, Object>();
 		Greeting temp = new Greeting(22L, "contenuto del greeting");
 		inputParam.put("greeting", temp);
@@ -108,6 +108,7 @@ public class Main {
 		headers.setContentDispositionFormData(filename, filename);
 		headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
 		ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(contents, headers, HttpStatus.OK);
+		System.out.println("end print user");
 		return response;
     }
 	
