@@ -85,17 +85,17 @@ public class Main {
 	}
 
 
-//	@PostMapping("/adduser")
-//	@ResponseBody
-//    public User create(@RequestBody User user){
-//		System.out.println("create user called");
-//        return user;
-//		//return userService.create(user);
-//    }
-	
 	@PostMapping("/adduser")
 	@ResponseBody
-    public ResponseEntity<byte[]> create(@RequestBody User user) throws JRException, IOException{
+    public User create(@RequestBody User user){
+		System.out.println("create user called");
+        return user;
+		//return userService.create(user);
+    }
+	
+	@PostMapping("/printuser")
+	@ResponseBody
+    public ResponseEntity<byte[]> print(@RequestBody User user) throws JRException, IOException{
 		System.out.println("create user called");
 		Map<String, Object> inputParam = new HashMap<String, Object>();
 		Greeting temp = new Greeting(22L, "contenuto del greeting");
