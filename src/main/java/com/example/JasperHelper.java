@@ -1,7 +1,6 @@
 package com.example;
 
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +20,9 @@ import net.sf.jasperreports.engine.JasperReport;
  */
 public class JasperHelper {
 
+	/**
+	 * The directory where all templates resides
+	 */
 	private static final String JASPER_TEMPLATE_DIR = "src/jasper-template/";
 
 	/**

@@ -112,6 +112,25 @@ public class Main {
 		return response;
     }
 	
+	@PostMapping("/printCharacterSheet")
+	@ResponseBody
+    public ResponseEntity<byte[]> printCharacterSheet(@RequestBody CharacterSheet characterSheet) throws JRException, IOException{
+		System.out.println("print characterSheet called");
+		Map<String, Object> inputParam = new HashMap<String, Object>();
+		inputParam.put("characterSheet", characterSheet);
+		byte[] contents = JasperHelper.printPdf("CharachterSheet.jrxml", inputParam);
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.parseMediaType("application/pdf"));
+		String filename = "characterSheet.pdf";
+		headers.setContentDispositionFormData(filename, filename);
+		headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+		ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(contents, headers, HttpStatus.OK);
+		System.out.println("end print characterSheet");
+		return response;
+    }
+    
+
 	@GetMapping("/getpdf")
 	@ResponseBody
 	public ResponseEntity<byte[]> getPDF(/* @RequestBody String json */) throws net.sf.jasperreports.engine.JRException, java.io.IOException{
