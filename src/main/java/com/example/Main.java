@@ -118,7 +118,7 @@ public class Main {
 		System.out.println("print characterSheet called");
 		Map<String, Object> inputParam = new HashMap<String, Object>();
 		inputParam.put("characterSheet", characterSheet);
-		byte[] contents = JasperHelper.printPdf("CharachterSheet.jrxml", inputParam);
+		byte[] contents = JasperHelper.printPdf("CharacterSheet.jrxml", inputParam);
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.parseMediaType("application/pdf"));
