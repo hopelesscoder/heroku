@@ -116,6 +116,12 @@ public class Main {
 	@ResponseBody
     public ResponseEntity<byte[]> printCharacterSheet(@RequestBody CharacterSheet characterSheet) throws JRException, IOException{
 		System.out.println("print characterSheet called");
+		characterSheet.getStrength()[1] = (characterSheet.getStrength()[1] - 10)/2;
+		characterSheet.getDexterity()[1] = (characterSheet.getDexterity()[1] - 10)/2;
+		characterSheet.getConstitution()[1] = (characterSheet.getConstitution()[1] - 10)/2;
+		characterSheet.getIntelligence()[1] = (characterSheet.getIntelligence()[1] - 10)/2;
+		characterSheet.getWisdom()[1] = (characterSheet.getWisdom()[1] - 10)/2;
+		characterSheet.getCharisma()[1] = (characterSheet.getCharisma()[1] - 10)/2;
 		Map<String, Object> inputParam = new HashMap<String, Object>();
 		inputParam.put("characterSheet", characterSheet);
 		byte[] contents = JasperHelper.printPdf("CharacterSheet.jrxml", inputParam);
@@ -130,21 +136,6 @@ public class Main {
 		return response;
     }
     
-	@PostMapping("/printCharacterSheetToJson")
-	@ResponseBody
-    public CharacterSheet printCharacterSheetToJson(@RequestBody CharacterSheet characterSheet) throws JRException, IOException{
-		System.out.println("print characterSheet called");
-		Map<String, Object> inputParam = new HashMap<String, Object>();
-		inputParam.put("characterSheet", characterSheet);
-		byte[] contents = JasperHelper.printPdf("CharacterSheet.jrxml", inputParam);
-
-		characterSheet.setSheet(contents);
-		System.out.println("create user called");
-
-		return characterSheet;
-    }
-    
-
 	@GetMapping("/getpdf")
 	@ResponseBody
 	public ResponseEntity<byte[]> getPDF(/* @RequestBody String json */) throws net.sf.jasperreports.engine.JRException, java.io.IOException{
