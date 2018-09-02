@@ -130,6 +130,20 @@ public class Main {
 		return response;
     }
     
+	@PostMapping("/printCharacterSheetToJson")
+	@ResponseBody
+    public CharacterSheet printCharacterSheetToJson(@RequestBody CharacterSheet characterSheet) throws JRException, IOException{
+		System.out.println("print characterSheet called");
+		Map<String, Object> inputParam = new HashMap<String, Object>();
+		inputParam.put("characterSheet", characterSheet);
+		byte[] contents = JasperHelper.printPdf("CharacterSheet.jrxml", inputParam);
+
+		characterSheet.setSheet(contents);
+		System.out.println("create user called");
+
+		return characterSheet;
+    }
+    
 
 	@GetMapping("/getpdf")
 	@ResponseBody

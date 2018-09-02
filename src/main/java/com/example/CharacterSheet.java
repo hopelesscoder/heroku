@@ -11,6 +11,7 @@ public class CharacterSheet {
 	private String alignment;
 	private Integer level;
 	private String race;
+	private byte[] sheet;
 	
 	/**
 	 * @return the name
@@ -71,5 +72,17 @@ public class CharacterSheet {
 	 */
 	public void setRace(String race) {
 		this.race = race;
+	}
+	/**
+	 * @return the pdf
+	 */
+	public byte[] getSheet() {
+		return sheet;
+	}
+	/**
+	 * @param sheet the pdf
+	 */
+	public void setSheet(byte[] sheet) {
+		this.sheet = sheet;
 	}
 }
