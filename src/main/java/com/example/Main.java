@@ -116,12 +116,12 @@ public class Main {
 	@ResponseBody
     public ResponseEntity<byte[]> printCharacterSheet(@RequestBody CharacterSheet characterSheet) throws JRException, IOException{
 		System.out.println("print characterSheet called");
-		characterSheet.getStrength()[1] = (characterSheet.getStrength()[1] - 10)/2;
-		characterSheet.getDexterity()[1] = (characterSheet.getDexterity()[1] - 10)/2;
-		characterSheet.getConstitution()[1] = (characterSheet.getConstitution()[1] - 10)/2;
-		characterSheet.getIntelligence()[1] = (characterSheet.getIntelligence()[1] - 10)/2;
-		characterSheet.getWisdom()[1] = (characterSheet.getWisdom()[1] - 10)/2;
-		characterSheet.getCharisma()[1] = (characterSheet.getCharisma()[1] - 10)/2;
+		characterSheet.getStrength()[1] = (characterSheet.getStrength()[0] - 10)/2;
+		characterSheet.getDexterity()[1] = (characterSheet.getDexterity()[0] - 10)/2;
+		characterSheet.getConstitution()[1] = (characterSheet.getConstitution()[0] - 10)/2;
+		characterSheet.getIntelligence()[1] = (characterSheet.getIntelligence()[0] - 10)/2;
+		characterSheet.getWisdom()[1] = (characterSheet.getWisdom()[0] - 10)/2;
+		characterSheet.getCharisma()[1] = (characterSheet.getCharisma()[0] - 10)/2;
 		Map<String, Object> inputParam = new HashMap<String, Object>();
 		inputParam.put("characterSheet", characterSheet);
 		byte[] contents = JasperHelper.printPdf("CharacterSheet.jrxml", inputParam);
