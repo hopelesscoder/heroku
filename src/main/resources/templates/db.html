@@ -7,7 +7,10 @@
 <div class="container">
   <h1>Database Output</h1>
   <ul th:each="record : ${records}">
-    <li th:text="${record}"/>
+    <li th:text="${record.get("decade")}"/>
+    <li th:text="${record.get("song")}"/>
+    <li th:text="${record.get("artist")}"/>
+    <li th:text="${record.get("weeksAtOne")}"/>
   </ul>
 </div>
 

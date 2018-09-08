@@ -23,6 +23,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import mongodb.JavaSimpleExample;
 import net.sf.jasperreports.engine.JRException;
 
+import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -48,6 +49,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import java.util.concurrent.atomic.AtomicLong;
@@ -77,11 +79,6 @@ public class Main {
 
 	@RequestMapping("/")
 	String index() {
-		try {
-			JavaSimpleExample.main(null);
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		}
 		return "index";
 	}
 
@@ -185,23 +182,37 @@ public class Main {
 
 	@RequestMapping("/db")
 	String db(Map<String, Object> model) {
-		try (Connection connection = dataSource.getConnection()) {
-			Statement stmt = connection.createStatement();
-			stmt.executeUpdate("CREATE TABLE IF NOT EXISTS ticks (tick timestamp)");
-			stmt.executeUpdate("INSERT INTO ticks VALUES (now())");
-			ResultSet rs = stmt.executeQuery("SELECT tick FROM ticks");
-
-			ArrayList<String> output = new ArrayList<String>();
-			while (rs.next()) {
-				output.add("Read from DB: " + rs.getTimestamp("tick"));
+		
+		if(JavaSimpleExample.isEmpty()) {
+			try {
+				JavaSimpleExample.create();
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+				model.put("message", e.getMessage());
+				return "error";
 			}
-
-			model.put("records", output);
-			return "db";
-		} catch (Exception e) {
-			model.put("message", e.getMessage());
-			return "error";
 		}
+		List<Document> documentList = JavaSimpleExample.getDocumentList();
+		model.put("records", documentList);
+		documentList.get(0);
+		return "db";
+//		try (Connection connection = dataSource.getConnection()) {
+//			Statement stmt = connection.createStatement();
+//			stmt.executeUpdate("CREATE TABLE IF NOT EXISTS ticks (tick timestamp)");
+//			stmt.executeUpdate("INSERT INTO ticks VALUES (now())");
+//			ResultSet rs = stmt.executeQuery("SELECT tick FROM ticks");
+//
+//			ArrayList<String> output = new ArrayList<String>();
+//			while (rs.next()) {
+//				output.add("Read from DB: " + rs.getTimestamp("tick"));
+//			}
+//
+//			model.put("records", output);
+//			return "db";
+//		} catch (Exception e) {
+//			model.put("message", e.getMessage());
+//			return "error";
+//		}
 	}
 
 	@Bean

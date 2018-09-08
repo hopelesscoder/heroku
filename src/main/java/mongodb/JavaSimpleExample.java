@@ -13,8 +13,45 @@ import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 
 public class JavaSimpleExample {
-
-    public static void main(String[] args) throws UnknownHostException{
+	/**
+	 * The uri to access mongodb
+	 */
+	private static final String MONGO_URI = "mongodb://heroku_kt941zzp:ils1u8nvn0oe3duo6hin4vd6cb@ds147592.mlab.com:47592/heroku_kt941zzp";
+	
+	public static boolean isEmpty() {
+        MongoClientURI uri  = new MongoClientURI(MONGO_URI); 
+        MongoClient client = new MongoClient(uri);
+        MongoDatabase db = client.getDatabase(uri.getDatabase());
+        MongoCollection<Document> songs = db.getCollection("songs");
+        if(songs.countDocuments() > 0) {
+        	client.close();
+        	return false;
+        }else {
+        	client.close();
+        	return true;
+        }
+	}
+	
+	public static List<Document> getDocumentList(){
+        MongoClientURI uri  = new MongoClientURI(MONGO_URI); 
+        MongoClient client = new MongoClient(uri);
+        MongoDatabase db = client.getDatabase(uri.getDatabase());
+        List<Document> out = new ArrayList<Document>();
+        MongoCollection<Document> songs = db.getCollection("songs");
+        MongoCursor<Document> cursor = songs.find().iterator();
+        try {
+            while (cursor.hasNext()) {
+                Document doc = cursor.next();
+                out.add(doc);
+            }
+        } finally {
+            cursor.close();
+            client.close();
+        }
+        return out;
+	}
+	
+    public static void create() throws UnknownHostException{
         
         // Create seed data
         
@@ -40,7 +77,7 @@ public class JavaSimpleExample {
 
         // Standard URI format: mongodb://[dbuser:dbpassword@]host:port/dbname
        
-        MongoClientURI uri  = new MongoClientURI("mongodb://heroku_kt941zzp:ils1u8nvn0oe3duo6hin4vd6cb@ds147592.mlab.com:47592/heroku_kt941zzp"); 
+        MongoClientURI uri  = new MongoClientURI(MONGO_URI); 
         MongoClient client = new MongoClient(uri);
         MongoDatabase db = client.getDatabase(uri.getDatabase());
         
