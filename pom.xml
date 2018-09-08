@@ -81,6 +81,16 @@
       <artifactId>jasperreports</artifactId>
 	  <version>6.6.0</version>
 	</dependency>
+	<dependency>
+	    <groupId>org.mongodb</groupId>
+	    <artifactId>mongodb-driver-sync</artifactId>
+	    <version>3.8.1</version>
+    </dependency>
+    <dependency>
+        <groupId>org.mongodb</groupId>
+        <artifactId>mongodb-driver</artifactId>
+        <version>3.8.1</version>
+    </dependency>
   </dependencies>
 
   <build>

@@ -20,6 +20,7 @@ package com.example;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
+import mongodb.JavaSimpleExample;
 import net.sf.jasperreports.engine.JRException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,7 @@ import org.springframework.http.ResponseEntity;
 import javax.sql.DataSource;
 
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -75,6 +77,11 @@ public class Main {
 
 	@RequestMapping("/")
 	String index() {
+		try {
+			JavaSimpleExample.main(null);
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
 		return "index";
 	}
 
