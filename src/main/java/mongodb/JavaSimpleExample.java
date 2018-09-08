@@ -125,7 +125,7 @@ public class JavaSimpleExample {
 
         // Since this is an example, we'll clean up after ourselves.
 
-        songs.drop();
+        //songs.drop();
         
         // Only close the connection when your app is terminating
 
