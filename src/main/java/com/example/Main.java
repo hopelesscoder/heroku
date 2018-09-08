@@ -194,7 +194,6 @@ public class Main {
 		}
 		List<Document> documentList = JavaSimpleExample.getDocumentList();
 		model.put("records", documentList);
-		documentList.get(0);
 		return "db";
 //		try (Connection connection = dataSource.getConnection()) {
 //			Statement stmt = connection.createStatement();
