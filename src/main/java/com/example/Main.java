@@ -95,7 +95,7 @@ public class Main {
 	@PostMapping("/adduser")
 	@ResponseBody
     public User create(@RequestBody User user){
-		System.out.println("create user called");
+		System.out.println("add user called");
         return user;
 		//return userService.create(user);
     }
