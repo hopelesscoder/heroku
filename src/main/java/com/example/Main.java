@@ -34,6 +34,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -59,6 +60,7 @@ import net.sf.jasperreports.engine.JRException;
 @CrossOrigin
 @Controller
 @SpringBootApplication
+@EnableMongoRepositories(basePackageClasses = CustomerRepository.class)
 public class Main {
 
 	@Value("${spring.datasource.url}")
