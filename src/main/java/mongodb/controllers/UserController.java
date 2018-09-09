@@ -17,50 +17,50 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import mongodb.models.Customer;
-import mongodb.repositories.CustomerRepository;
+import mongodb.models.User;
+import mongodb.repositories.UserRepository;
 
 @RestController
 @RequestMapping("/api")
 @CrossOrigin("*")
 @Component
-public class CustomerController {
+public class UserController {
 	
 	@Autowired
-    CustomerRepository customerRepository;
+    UserRepository userRepository;
 	
-	@GetMapping("/customers")
-    public List<Customer> getAllCustomers() {
+	@GetMapping("/users")
+    public List<User> getAllUsers() {
         Sort sortByCreatedAtDesc = new Sort(Sort.Direction.DESC, "createdAt");
-        return customerRepository.findAll(sortByCreatedAtDesc);
+        return userRepository.findAll(sortByCreatedAtDesc);
     }
 
-    @PostMapping("/customers")
-    public Customer createCustomer(@Valid @RequestBody Customer customer) {
-        return customerRepository.save(customer);
+    @PostMapping("/users")
+    public User createUser(@Valid @RequestBody User user) {
+        return userRepository.save(user);
     }
 
-    @GetMapping(value="/customers/{id}")
-    public ResponseEntity<Customer> getCustomerById(@PathVariable("id") String id) {
-        return customerRepository.findById(id)
-                .map(customer -> ResponseEntity.ok().body(customer))
+    @GetMapping(value="/users/{id}")
+    public ResponseEntity<User> getuserById(@PathVariable("id") String id) {
+        return userRepository.findById(id)
+                .map(user -> ResponseEntity.ok().body(user))
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @DeleteMapping(value="/customers/{id}")
-    public ResponseEntity<?> deleteTodo(@PathVariable("id") String id) {
-        return customerRepository.findById(id)
-                .map(todo -> {
-                	customerRepository.deleteById(id);
+    @DeleteMapping(value="/users/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable("id") String id) {
+        return userRepository.findById(id)
+                .map(user -> {
+                	userRepository.deleteById(id);
                     return ResponseEntity.ok().build();
                 }).orElse(ResponseEntity.notFound().build());
     }
 
-	public CustomerRepository getCustomerRepository() {
-		return customerRepository;
+	public UserRepository getUserRepository() {
+		return userRepository;
 	}
 
-	public void setCustomerRepository(CustomerRepository customerRepository) {
-		this.customerRepository = customerRepository;
+	public void setUserRepository(UserRepository userRepository) {
+		this.userRepository = userRepository;
 	}
 }

@@ -9,9 +9,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@Document(collection="customers")
+@Document(collection="users")
 @JsonIgnoreProperties(value = {"createdAt"}, allowGetters = true)
-public class Customer {
+public class User {
 	
 	@Id
     private String id;
@@ -22,9 +22,11 @@ public class Customer {
 	@NotBlank
     private String lastName;
 	
+	private String email;
+	
 	private Date createdAt = new Date();
 
-	public Customer(@NotBlank String firstName, @NotBlank String lastName) {
+	public User(@NotBlank String firstName, @NotBlank String lastName) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 	}
@@ -59,5 +61,13 @@ public class Customer {
 
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 }

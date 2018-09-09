@@ -52,15 +52,14 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 import mongodb.JavaSimpleExample;
-import mongodb.controllers.CustomerController;
-import mongodb.models.Customer;
-import mongodb.repositories.CustomerRepository;
+import mongodb.models.User;
+import mongodb.repositories.UserRepository;
 import net.sf.jasperreports.engine.JRException;
 
 @CrossOrigin
 @Controller
 @SpringBootApplication(scanBasePackages = {"com.exmple","mongodb"})
-@EnableMongoRepositories(basePackageClasses = CustomerRepository.class)
+@EnableMongoRepositories(basePackageClasses = UserRepository.class)
 public class Main {
 
 	@Value("${spring.datasource.url}")
@@ -70,14 +69,13 @@ public class Main {
 	private DataSource dataSource;
 	
 	@Autowired
-    CustomerRepository customerRepository;
+    UserRepository userRepository;
 
 	private static final String template = "Hello, %s!";
 	private final AtomicLong counter = new AtomicLong();
 
 	public static void main(String[] args) throws Exception {
 		SpringApplication.run(Main.class, args);
-		//SpringApplication.run(CustomerController.class, args);
 		//SpringApplication.run(HelloWorldController.class, args);
 
 	}
@@ -223,15 +221,17 @@ public class Main {
 	@RequestMapping("/mongodb")
 	String mongoDB(Map<String, Object> model) {
 		Sort sortByCreatedAtDesc = new Sort(Sort.Direction.DESC, "createdAt");
-		List<Customer> customerList = customerRepository.findAll(sortByCreatedAtDesc);
-		if(customerList.isEmpty()) {
-			Customer customer1 = new Customer("first name", "first surname");
-			customerRepository.save(customer1);
-			Customer customer2 = new Customer("second name", "second surname");
-			customerRepository.save(customer2);
+		List<User> userList = userRepository.findAll(sortByCreatedAtDesc);
+		if(userList.isEmpty()) {
+			User user1 = new User("first name", "first surname");
+			user1.setEmail("first email");
+			userRepository.save(user1);
+			User user2 = new User("second name", "second surname");
+			user2.setEmail("second email");
+			userRepository.save(user2);
 		}
-		customerList = customerRepository.findAll(sortByCreatedAtDesc);
-		model.put("records", customerList);
+		userList = userRepository.findAll(sortByCreatedAtDesc);
+		model.put("records", userList);
 		return "mongodb";
 	}
 
@@ -246,12 +246,12 @@ public class Main {
 		}
 	}
 
-	public CustomerRepository getCustomerRepository() {
-		return customerRepository;
+	public UserRepository getUserRepository() {
+		return userRepository;
 	}
 
-	public void setCustomerRepository(CustomerRepository customerRepository) {
-		this.customerRepository = customerRepository;
+	public void setUserRepository(UserRepository userRepository) {
+		this.userRepository = userRepository;
 	}
 	
 	
