@@ -23,6 +23,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import mongodb.JavaSimpleExample;
 import mongodb.controllers.CustomerController;
 import mongodb.models.Customer;
+import mongodb.repositories.CustomerRepository;
 import net.sf.jasperreports.engine.JRException;
 
 import org.bson.Document;
@@ -31,6 +32,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -70,12 +72,16 @@ public class Main {
 
 	@Autowired
 	private DataSource dataSource;
+	
+	@Autowired
+    CustomerRepository customerRepository;
 
 	private static final String template = "Hello, %s!";
 	private final AtomicLong counter = new AtomicLong();
 
 	public static void main(String[] args) throws Exception {
 		SpringApplication.run(Main.class, args);
+		SpringApplication.run(CustomerController.class, args);
 		//SpringApplication.run(HelloWorldController.class, args);
 
 	}
@@ -220,15 +226,15 @@ public class Main {
 	
 	@RequestMapping("/mongodb")
 	String mongoDB(Map<String, Object> model) {
-		CustomerController customerController = new CustomerController();
-		List<Customer> customerList = customerController.getAllCustomers();
+		Sort sortByCreatedAtDesc = new Sort(Sort.Direction.DESC, "createdAt");
+		List<Customer> customerList = customerRepository.findAll(sortByCreatedAtDesc);
 		if(customerList.isEmpty()) {
 			Customer customer1 = new Customer("first name", "first surname");
-			customerController.createCustomer(customer1);
+			customerRepository.save(customer1);
 			Customer customer2 = new Customer("second name", "second surname");
-			customerController.createCustomer(customer2);
+			customerRepository.save(customer2);
 		}
-		customerList = customerController.getAllCustomers();
+		customerList = customerRepository.findAll(sortByCreatedAtDesc);
 		model.put("records", customerList);
 		return "mongodb";
 	}
