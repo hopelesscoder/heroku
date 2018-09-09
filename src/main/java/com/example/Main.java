@@ -59,7 +59,7 @@ import net.sf.jasperreports.engine.JRException;
 
 @CrossOrigin
 @Controller
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.exmple","mongodb"})
 @EnableMongoRepositories(basePackageClasses = CustomerRepository.class)
 public class Main {
 
@@ -76,11 +76,8 @@ public class Main {
 	private final AtomicLong counter = new AtomicLong();
 
 	public static void main(String[] args) throws Exception {
-		Object[] sources = new Object[2];
-        sources[0] = Main.class;
-        sources[1] = CustomerController.class;
-//		SpringApplication.run(Main.class, args);
-//		SpringApplication.run(CustomerController.class, args);
+		SpringApplication.run(Main.class, args);
+		//SpringApplication.run(CustomerController.class, args);
 		//SpringApplication.run(HelloWorldController.class, args);
 
 	}
