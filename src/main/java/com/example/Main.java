@@ -76,8 +76,11 @@ public class Main {
 	private final AtomicLong counter = new AtomicLong();
 
 	public static void main(String[] args) throws Exception {
-		SpringApplication.run(Main.class, args);
-		SpringApplication.run(CustomerController.class, args);
+		Object[] sources = new Object[2];
+        sources[0] = Main.class;
+        sources[1] = CustomerController.class;
+//		SpringApplication.run(Main.class, args);
+//		SpringApplication.run(CustomerController.class, args);
 		//SpringApplication.run(HelloWorldController.class, args);
 
 	}
