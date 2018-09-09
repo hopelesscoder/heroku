@@ -21,6 +21,8 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 import mongodb.JavaSimpleExample;
+import mongodb.controllers.CustomerController;
+import mongodb.models.Customer;
 import net.sf.jasperreports.engine.JRException;
 
 import org.bson.Document;
@@ -40,6 +42,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.http.ResponseEntity;
 
 import javax.sql.DataSource;
+import javax.validation.Valid;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -212,6 +215,22 @@ public class Main {
 //			model.put("message", e.getMessage());
 //			return "error";
 //		}
+	}
+	
+	
+	@RequestMapping("/mongodb")
+	String mongoDB(Map<String, Object> model) {
+		CustomerController customerController = new CustomerController();
+		List<Customer> customerList = customerController.getAllCustomers();
+		if(customerList.isEmpty()) {
+			Customer customer1 = new Customer("first name", "first surname");
+			customerController.createCustomer(customer1);
+			Customer customer2 = new Customer("second name", "second surname");
+			customerController.createCustomer(customer2);
+		}
+		customerList = customerController.getAllCustomers();
+		model.put("records", customerList);
+		return "mongodb";
 	}
 
 	@Bean

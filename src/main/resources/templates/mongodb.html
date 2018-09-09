@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'mongodb')}">
+
+<body>
+
+
+<div class="container">
+  <h1>MongoDB Output</h1>
+  <ul th:each="record : ${records}">
+    <li th:text="${record.id}"/>
+    <li th:text="${record.firstName}"/>
+    <li th:text="${record.lastName}"/>
+    <li th:text="${record.createdAt}"/>
+  </ul>
+</div>
+
+</body>
+</html>
